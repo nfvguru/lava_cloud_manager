@@ -4,4 +4,5 @@ src/share
 src/share/*
 src/db.sqlite3
 src/lcloudm/__pycache__/
+*__pycache__/*
 
