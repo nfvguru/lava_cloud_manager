@@ -1,0 +1,24 @@
+U18 - MINIMAL
+================
+
+   01  ip address add  dev ens32 10.82.43.181/16
+   02  ip route add default via 10.82.27.1
+   03  vi /etc/apt/apt.conf.d/apt.conf
+       Acquire::http::Proxy "http://10.82.254.254:3128";
+   04  apt-get update --fix-missing
+   05  apt-get install net-tools
+   06  apt-get install openssh-server
+   07  apt-get install git
+   08  vi /etc/netplan/01-network-manager-all.yaml 
+       network:
+       ethernets:
+          ens32:
+             dhcp4: no
+             dhcp6: no
+             addresses: [10.82.43.181/16,]
+             gateway4: 10.82.27.1
+             nameservers:
+                addresses: [ 8.8.8.8, ]
+
+   09  sudo adduser cloudm
+   10  usermod -aG sudo cloudm
