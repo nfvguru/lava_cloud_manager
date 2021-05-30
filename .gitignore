@@ -1,0 +1,5 @@
+src/bin/
+src/lib/
+src/share
+src/share/*
+
