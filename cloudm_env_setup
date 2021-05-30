@@ -5,3 +5,7 @@ source bin/activate
 export http_proxy=10.82.254.254:3128
 export https_proxy=10.82.254.254:3128
 pip3 install django
+django-admin startproject lcloudm
+python3 manage.py runserver 8080
+    settings.py - update ALLOWED_HOSTS=['10.82.43.181']
+sudo redir --lport=8081 --laddr=10.82.43.181 --cport 8080 --caddr=127.0.0.1 
