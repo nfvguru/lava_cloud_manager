@@ -1,2 +1,7 @@
 sudo apt install virtualenv
 virtualenv -p python3 src
+cd src
+source bin/activate
+export http_proxy=10.82.254.254:3128
+export https_proxy=10.82.254.254:3128
+pip3 install django
