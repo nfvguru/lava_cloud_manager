@@ -53,4 +53,5 @@ U18 - MINIMAL
    20 export https_proxy=https://10.82.254.254:3128
    21 export http_proxy=http://10.82.254.254:3128
    22 python3 -m pip install --upgrade pip
-
+   23 sudo apt-get install nginx
+   24 sudo apt-get install redir

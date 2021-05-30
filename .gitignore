@@ -2,4 +2,6 @@ src/bin/
 src/lib/
 src/share
 src/share/*
+src/db.sqlite3
+src/lcloudm/__pycache__/
 
