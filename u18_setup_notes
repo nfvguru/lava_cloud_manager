@@ -9,7 +9,7 @@ U18 - MINIMAL
    05  apt-get install net-tools
    06  apt-get install openssh-server
    07  apt-get install git
-   08  vi /etc/netplan/01-network-manager-all.yaml 
+   08  vi /etc/netplan/01-network-manager-all.yaml
        network:
        ethernets:
           ens32:
@@ -23,7 +23,7 @@ U18 - MINIMAL
    09  sudo adduser cloudm
    10  usermod -aG sudo cloudm
    11  sudo su - cloudm
-   12  config git 
+   12  config git
        git config --global user.email "you@example.com"
        git config --global user.name "Your Name"
        git config --global http.proxy http://10.82.254.254:3128
@@ -31,7 +31,7 @@ U18 - MINIMAL
    13  ~/.wgetrc
        use_proxy=yes
        http_proxy=10.82.254.254:3128
-       https_proxy=10.82.254.254:3128 
+       https_proxy=10.82.254.254:3128
    14  wget -O atom-amd64.deb https://atom.io/download/deb
        sudo apt install gdebi-core
        XXXXX - THis is not working do
@@ -44,10 +44,12 @@ U18 - MINIMAL
    18  sudo apt install postgresql postgresql-contrib
        sudo su - postgres
        createuser cloudm
-       createdb cloudm 
+       createdb cloudm
        sudo su -i -u cloudm
        psql
        \conninfo
+       \l - list databases
+       CREATE DATABASE cloudm;
        \q
    19 sudo apt install python3-pip
    20 export https_proxy=https://10.82.254.254:3128
