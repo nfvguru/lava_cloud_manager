@@ -19,7 +19,7 @@ add new app : >  python3 manage.py startapp instances
 edit settings.py in lcloudm to register new app
     INSTALLED_APPS = [
     'instances.apps.InstancesConfig',
-Psycop2g - For postgresql - pip3 install psycop2g
+Psycop2g - For postgresql - pip3 install psycop2g (pip3 install psycopg2-binary too in linux)
 Update DATABASE details in settings.py
         DATABASES = {
             'default': {
@@ -34,4 +34,4 @@ Update DATABASE details in settings.py
         }
 
 Migrate the DBs - python manage.py migrate
-When add some new db in models.py, run python manage.py makemigration 
+When add some new db in models.py, run python manage.py makemigration
