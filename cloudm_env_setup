@@ -8,4 +8,9 @@ pip3 install django
 django-admin startproject lcloudm
 python3 manage.py runserver 8080
     settings.py - update ALLOWED_HOSTS=['10.82.43.181']
-sudo redir --lport=8081 --laddr=10.82.43.181 --cport 8080 --caddr=127.0.0.1 
+#sudo redir --lport=8081 --laddr=10.82.43.181 --cport 8080 --caddr=127.0.0.1
+   use ngix to redirect.
+   add the following line  to /etc/nginx/sites-enabled/default
+   inside location/
+        #try_files $uri $uri/ =404;
+        proxy_pass http://127.0.0.1:8080/;
