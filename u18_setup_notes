@@ -50,7 +50,9 @@ U18 - MINIMAL
        \conninfo
        \l - list databases
        CREATE DATABASE cloudm;
-       \q
+       \c cloudm      - connect to a db
+       \dt - list tables in db
+       \q  - quit
    19 sudo apt install python3-pip
    20 export https_proxy=https://10.82.254.254:3128
    21 export http_proxy=http://10.82.254.254:3128
