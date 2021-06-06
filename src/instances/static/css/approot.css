@@ -1,0 +1,120 @@
+/*
+
+Light Green:#7ed56f
+bennettfeely.com/clippy
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #fff;
+  padding: 30px;
+}
+
+.header {
+  height: 20vh;
+  grid-area: header;
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(126,213,111,0.7),
+    rgba(40,180,131,0.7)),
+    url(../2.jpeg);
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  clip-path:polygon(0 0,100% 0,100% 80%,0 100%)
+}
+
+.logo-box {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.logo {
+  height: 80px;
+}
+
+.text-box {
+  position: absolute;
+  top: 0;
+  left: 45%;
+  transform: translate(-50%, 50%);
+  text-align: center;
+}
+
+.heading-primary {
+  color: #000;
+  backface-visibility: hidden;
+  margin-bottom: 0px;
+}
+
+.heading-primary-main {
+  display: block;
+  text-transform: uppercase;
+  font-size: 25px;
+  font-weight: 400;
+  letter-spacing: 6px;
+
+}
+
+.heading-primary-sub {
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+
+.mycanvas {
+  height: 95vh;
+  position: relative;
+  background-color: #ecf8f2;
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "nav content aside"
+    "footer footer footer";
+
+  grid-template-columns: 300px 1fr 300px;
+  grid-template-rows: auto 1fr auto;
+  /* grid-gap: 0; */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  /* height: 100vh; */
+}
+
+nav {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  grid-area: nav;
+  /* margin-left: 0.5rem; */
+  background-color: #d6efd8;
+}
+
+main {
+  grid-area: content;
+  background-color: #c7dfc6;
+  /* width: 60vw; */
+}
+
+aside {
+  grid-area: aside;
+  /* margin-right: 0.5rem; */
+  background-color: #d6efd8;
+    /* width: 60vw; */
+}
+
+footer {
+  grid-area: footer;
+  background-color: #f8fff3;;
+  height: 10vh;
+}
