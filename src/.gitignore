@@ -3,3 +3,5 @@ pyvenv.cfg
 db.sqlite3
 lcloudm/__pycache__/*
 *__pycache__
+static
+instances/migrations
