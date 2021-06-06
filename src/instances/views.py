@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import requests
 
 # Create your views here.
@@ -14,3 +14,8 @@ def index(request):
     # return JsonResponse(myval)
     inst_types = InstanceType.objects
     return render(request, 'instances/index.html', {'my_insts':inst_types})
+
+
+def listinst(request, inst_id):
+    my_inst=get_object_or_404(InstanceType, pk=inst_id)
+    return render(request, 'instances/instance.html', {'inst':my_inst})

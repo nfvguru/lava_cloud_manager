@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+{% load static %}
   <head>
     <meta charset="utf-8">
     <title>Lava cloud manager</title>
@@ -7,7 +8,8 @@
   <body>
     <h1>Lava Cloud Manager</h1>
     {% for inst in  my_insts.all %}
-    {{inst.summary}}
+<a href="{% url 'listinst' inst.id %}">
+    {{inst.type}}    </a>
     <br>
     {% endfor %}
   </body>

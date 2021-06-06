@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+      <img src="{{inst.logo.url}}" height=100 alt=""></img>
+      <br>
+      TYPE :  {{inst.type}}
+      <br>
+      DETAILS: {{inst.summary}}
+       <br>
+       <a href="{% url  'index' %}"> BACK </a>
+  </body>
+</html>
