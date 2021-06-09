@@ -24,6 +24,12 @@
     </header>
     <nav>
     <!-- Navigation -->
+      {% for inst in  instances.all %}
+      <a href="{% url 'listinst' inst.id %}">
+          {{inst.type}}    </a>
+          <br>
+      {% endfor %}
+      <p>{{ task_id }}{{ task_status }}{{ task_results }}<
      </nav>
 
      <main>

@@ -5,6 +5,7 @@ import requests
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import InstanceType
+from .tasks import adding_task
 
 
 
@@ -17,8 +18,15 @@ def index(request):
     return render(request, 'index.html')
 
 def approot(request):
+    context={}
     inst_types = InstanceType.objects
-    return render(request, 'instances/approot.html', {'my_insts':inst_types})
+    task = adding_task.delay(9,4)
+    context['task_id'] = task.id
+    context['task_status'] = task.status
+    if task.status == 'SUCCESS':
+        context['task_results'] = task.get()
+    context['instances'] = inst_types
+    return render(request, 'instances/approot.html', context)
 
 def listinst(request, inst_id):
     my_inst=get_object_or_404(InstanceType, pk=inst_id)

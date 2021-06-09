@@ -39,3 +39,13 @@ pip install requests
 python manage.py createsuperuser
 python -m pip install Pillow
 python manage.py collectstatic
+>> Side note:-
+  pip freeze > requirements.txt
+  pip install -r requirements.txt
+############################# ASYNC TASKS ##########################
+ pip install  Celery redis Pillow django-widget-tweaks
+ pip uninstall celery
+ pip install celery==5.0.5
+ Follow:- https://stackabuse.com/asynchronous-tasks-in-django-with-redis-and-celery
+ Change in running celery command:-
+ celery  -A lcloudm  worker --loglevel=info
