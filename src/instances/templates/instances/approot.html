@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/approot.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <!--link rel="shortcut icon" type="image/jpeg"    href="/css/master.css"-->
 
     <title> LAVA CLOUD MANAGER</title>
@@ -24,16 +26,25 @@
     </header>
     <nav>
     <!-- Navigation -->
-      {% for inst in  instances.all %}
-      <a href="{% url 'listinst' inst.id %}">
-          {{inst.type}}    </a>
-          <br>
-      {% endfor %}
-      <p>{{ task_id }}{{ task_status }}{{ task_results }}<
+    <h3>Instances</h3>
+    <h3>Alteon config</h3>
+    <h3>Userdata</h3>
+    <h3>Images</h3>
      </nav>
 
      <main>
     <!-- Main content -->
+    {% for inst in  instances.all %}
+    <a href="{% url 'listinst' inst.id %}">
+        {{inst.type}}    </a>
+        {% if inst.type == 'aws' %}
+        <p class="subtitle has-text-centered" id="progress-title"></p>
+        {% else %}
+        <p> No Results for Now !</p>
+        {% endif %}
+        <br>
+    {% endfor %}
+    <!-- <p>{{ task_id }}<p>{{ task_status }}<p>{{ task_results }} -->
      </main>
 
     <aside>
@@ -44,5 +55,62 @@
     <!-- Footer content -->
      </footer>
     </div>
+
+<!-- Let us play with some Java Script from here onwards  -->
+{% if task_id %}
+ <script>
+ var taskUrl = "{% url 'task' task_id=task_id %}";
+ var dots = 1;
+ var progressTitle = document.getElementById('progress-title');
+ updateProgressTitle();
+ var timer = setInterval(function() {
+   updateProgressTitle();
+   axios.get(taskUrl)
+     .then(function(response){
+       var taskStatus = response.data.task_status
+       if (taskStatus === 'SUCCESS') {
+         clearTimer(response.data.results);
+         // var url = window.location.protocol + '//' + window.location.host + response.data.results.archive_path;
+         // var a = document.createElement("a");
+         // a.target = '_BLANK';
+         // document.body.appendChild(a);
+         // a.style = "display: none";
+         // a.href = url;
+         // a.download = 'results.zip';
+         // a.click();
+         // document.body.removeChild(a);
+       } else if (taskStatus === 'FAILURE') {
+         clearTimer('An error occurred');
+       }
+     })
+     .catch(function(err){
+       console.log('err', err);
+       clearTimer('An error occurred');
+     });
+ }, 800);
+
+ function updateProgressTitle() {
+   dots++;
+   if (dots > 3) {
+     dots = 1;
+   }
+   progressTitle.innerHTML = 'Checking ';
+   for (var i = 0; i < dots; i++) {
+     progressTitle.innerHTML += '.';
+   }
+ }
+ function clearTimer(response) {
+   clearInterval(timer);
+   var message = '';
+   if (response.error_code == 0) {
+      message = 'Success : ' + JSON.stringify(response);
+   } else {
+      message = 'Operation Failed: ' + JSON.stringify(response);
+   }
+   progressTitle.innerHTML = message;
+ }
+ </script>
+ {% endif %}
+
   </body>
 </html>
