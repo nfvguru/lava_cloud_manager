@@ -15,7 +15,7 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
-  color: #fff;
+  color: #000;
   padding: 30px;
 }
 
@@ -117,4 +117,38 @@ footer {
   grid-area: footer;
   background-color: #f8fff3;;
   height: 10vh;
+}
+
+
+.instlogo-box {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
+.instimg {
+  height: 30px;
+  width:100px
+}
+
+.insttable{
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  //border: 1px solid black;
+  width: 90%;
+}
+
+.insttable td, .insttable th {
+  border: 1px solid #0f0e0e;
+  padding: 8px;
+  text-align: center;
+}
+.insttable tr:nth-child(even){background-color: #cee7d5;}
+.insttable tr:hover{background-color: #ddd;}
+.insttable th {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  //text-align: center;
+  background-color:  #c1d8c0;;
+  color: #1111101c29;
 }

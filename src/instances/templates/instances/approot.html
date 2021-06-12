@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/approot.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <!--link rel="shortcut icon" type="image/jpeg"    href="/css/master.css"-->
 
@@ -34,16 +34,39 @@
 
      <main>
     <!-- Main content -->
+    <div class="instlogo-box">
     {% for inst in  instances.all %}
-    <a href="{% url 'listinst' inst.id %}">
-        {{inst.type}}    </a>
+    <!-- <a href="{% url 'listinst' inst.id %}">
+        {{inst.type}}    </a> -->
+
+        <img src="{{inst.logo.url}}" alt=""  class="instimg">
+        <table class="insttable" id="table-{{inst.type}}">
+          <tr>
+            <th>Instance ID</th>
+            <th>Name</th>
+            <th>State</th>
+          </tr>
+          <!-- {% if inst.type == 'aws' %}
+          <tr>
+          <td>11111111111</td>
+          <td>lava</td>
+          <td> running </td>
+          </tr>
+          <tr>
+          <td>11111111112</td>
+          <td>lava2</td>
+          <td> stopped </td>
+          </tr>
+          {% endif %} -->
+        </table>
         {% if inst.type == 'aws' %}
         <p class="subtitle has-text-centered" id="progress-title"></p>
         {% else %}
-        <p> No Results for Now !</p>
+        <p> </p>
         {% endif %}
         <br>
     {% endfor %}
+    </div>
     <!-- <p>{{ task_id }}<p>{{ task_status }}<p>{{ task_results }} -->
      </main>
 
@@ -55,7 +78,7 @@
     <!-- Footer content -->
      </footer>
     </div>
-
+<!-- ===============================  MOVE to JS FILE LATER  ============================================== -->
 <!-- Let us play with some Java Script from here onwards  -->
 {% if task_id %}
  <script>
