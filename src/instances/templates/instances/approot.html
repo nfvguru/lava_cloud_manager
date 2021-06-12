@@ -6,12 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/approot.css' %}">
+    <!-- <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script> -->
+    <script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+    <script src="{% static 'js/instops.js' %}"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script> -->
     <!--link rel="shortcut icon" type="image/jpeg"    href="/css/master.css"-->
 
     <title> LAVA CLOUD MANAGER</title>
   </head>
+  <!-- <body onload="instanceloading()"> -->
   <body>
     <div class="mycanvas">
     <header class="header">
@@ -39,7 +46,7 @@
     <!-- <a href="{% url 'listinst' inst.id %}">
         {{inst.type}}    </a> -->
 
-        <img src="{{inst.logo.url}}" alt=""  class="instimg">
+        <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="instanceloading(event)" class="instimg">
         <table class="insttable" id="table-{{inst.type}}">
           <tr>
             <th>Instance ID</th>
@@ -78,62 +85,68 @@
     <!-- Footer content -->
      </footer>
     </div>
-<!-- ===============================  MOVE to JS FILE LATER  ============================================== -->
-<!-- Let us play with some Java Script from here onwards  -->
-{% if task_id %}
- <script>
- var taskUrl = "{% url 'task' task_id=task_id %}";
- var dots = 1;
- var progressTitle = document.getElementById('progress-title');
- updateProgressTitle();
- var timer = setInterval(function() {
-   updateProgressTitle();
-   axios.get(taskUrl)
-     .then(function(response){
-       var taskStatus = response.data.task_status
-       if (taskStatus === 'SUCCESS') {
-         clearTimer(response.data.results);
-         // var url = window.location.protocol + '//' + window.location.host + response.data.results.archive_path;
-         // var a = document.createElement("a");
-         // a.target = '_BLANK';
-         // document.body.appendChild(a);
-         // a.style = "display: none";
-         // a.href = url;
-         // a.download = 'results.zip';
-         // a.click();
-         // document.body.removeChild(a);
-       } else if (taskStatus === 'FAILURE') {
-         clearTimer('An error occurred');
+    <script>
+      instops = new InstOps();
+      var count = 0;
+      jqfn = null;
+      drawfn = null;
+      taskval = null;
+
+      $(function() {
+       function loadmyurl(url){
+              /.. some operations ../
+              // alert("from jquery"+ url);
+              $.getJSON(url,{}).done(function(data){
+                console.log(data);
+                // taskval=JSON.stringify(data);
+                taskval=data;
+              }
+
+            ).fail(function(){
+              alert('fail');
+            });
        }
-     })
-     .catch(function(err){
-       console.log('err', err);
-       clearTimer('An error occurred');
-     });
- }, 800);
+       function drawTables(mytable){
+         //alert(mytable);
+         $('.insttable#'+mytable).fadeToggle(500);
+       }
+       jqfn = loadmyurl;
+       drawfn = drawTables;
+      })
 
- function updateProgressTitle() {
-   dots++;
-   if (dots > 3) {
-     dots = 1;
-   }
-   progressTitle.innerHTML = 'Checking ';
-   for (var i = 0; i < dots; i++) {
-     progressTitle.innerHTML += '.';
-   }
- }
- function clearTimer(response) {
-   clearInterval(timer);
-   var message = '';
-   if (response.error_code == 0) {
-      message = 'Success : ' + JSON.stringify(response);
-   } else {
-      message = 'Operation Failed: ' + JSON.stringify(response);
-   }
-   progressTitle.innerHTML = message;
- }
- </script>
- {% endif %}
+      // $(function {
+      //
+      // });
 
+      function instanceloading(e) {
+        // alert("Page is loaded");
+        //alert(e.target.id);
+        {% if task_id %}
+        var taskUrl = "{% url 'task' task_id=task_id %}";
+        // jquery.load(taskUrl);
+        jqfn(taskUrl);
+        // alert(JSON.stringify(taskStatus));
+
+        // instops.getInstance('{{task_id}}');
+        var timer = setInterval(function() {
+          count++;
+          if (taskval === null ) {
+            alert('nul');
+          } else {
+            // alert(taskval.task_status);
+            if(taskval.task_status === 'SUCCESS') {
+              // alert(taskval.results);
+              drawfn('table-'+e.target.id)
+              clearInterval(timer);
+            }
+          }
+          // alert(count);
+          if(count===3) {
+            clearInterval(timer);
+          }
+        },500);
+        {% endif %}
+      }
+    </script>
   </body>
 </html>
