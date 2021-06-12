@@ -22,8 +22,8 @@ def index(request):
 def approot(request):
     context={}
     inst_types = InstanceType.objects
-    task = adding_task.delay(9,4)
-    #task = get_aws_instance_details.delay()
+    # task = adding_task.delay(9,4)
+    task = get_aws_instance_details.delay()
     context['task_id'] = task.id
     context['task_status'] = task.status
     if task.status == 'SUCCESS':

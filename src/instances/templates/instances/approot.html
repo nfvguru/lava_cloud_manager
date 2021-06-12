@@ -106,9 +106,17 @@
               alert('fail');
             });
        }
-       function drawTables(mytable){
+       function drawTables(mytable, data){
          //alert(mytable);
-         $('.insttable#'+mytable).fadeToggle(500);
+         // $('.insttable#'+mytable).fadeToggle(500);
+         $.each(data.instances, function(index,item){
+             console.log(item.InstanceId+''+item.State.Name+''+ item.Tags[0].Value);
+             $('#'+mytable).append('<tr><td>'+item.InstanceId+'</td><td>'+item.Tags[0].Value+'</td><td>'+item.State.Name+'</td></tr>');
+            }
+         );
+         // $('#'+mytable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
+         $('#'+mytable).fadeToggle(500);
+         // $('#'+myTable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
        }
        jqfn = loadmyurl;
        drawfn = drawTables;
@@ -136,7 +144,7 @@
             // alert(taskval.task_status);
             if(taskval.task_status === 'SUCCESS') {
               // alert(taskval.results);
-              drawfn('table-'+e.target.id)
+              drawfn('table-'+e.target.id, taskval.results)
               clearInterval(timer);
             }
           }
