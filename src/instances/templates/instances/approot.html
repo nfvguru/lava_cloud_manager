@@ -18,8 +18,8 @@
 
     <title> LAVA CLOUD MANAGER</title>
   </head>
-  <!-- <body onload="instanceloading()"> -->
-  <body>
+  <body onload="instanceloading()">
+  <!-- <body> -->
     <div class="mycanvas">
     <header class="header">
       <div class="logo-box">
@@ -46,7 +46,7 @@
     <!-- <a href="{% url 'listinst' inst.id %}">
         {{inst.type}}    </a> -->
 
-        <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="instanceloading(event)" class="instimg">
+        <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="toggleme(event)" class="instimg">
         <table class="insttable" id="table-{{inst.type}}">
           <tr>
             <th>Instance ID</th>
@@ -87,73 +87,77 @@
     </div>
     <script>
       instops = new InstOps();
-      var count = 0;
-      jqfn = null;
-      drawfn = null;
-      taskval = null;
-
-      $(function() {
-       function loadmyurl(url){
-              /.. some operations ../
-              // alert("from jquery"+ url);
-              $.getJSON(url,{}).done(function(data){
-                console.log(data);
-                // taskval=JSON.stringify(data);
-                taskval=data;
-              }
-
-            ).fail(function(){
-              alert('fail');
-            });
-       }
-       function drawTables(mytable, data){
-         //alert(mytable);
-         // $('.insttable#'+mytable).fadeToggle(500);
-         $.each(data.instances, function(index,item){
-             console.log(item.InstanceId+''+item.State.Name+''+ item.Tags[0].Value);
-             $('#'+mytable).append('<tr><td>'+item.InstanceId+'</td><td>'+item.Tags[0].Value+'</td><td>'+item.State.Name+'</td></tr>');
-            }
-         );
-         // $('#'+mytable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
-         $('#'+mytable).fadeToggle(500);
-         // $('#'+myTable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
-       }
-       jqfn = loadmyurl;
-       drawfn = drawTables;
-      })
+      // var count = 0;
+      // jqfn = null;
+      // drawfn = null;
+      // taskval = null;
+      //
+      // $(function() {
+       // function loadmyurl(url){
+       //        /.. some operations ../
+       //        // alert("from jquery"+ url);
+       //        $.getJSON(url,{}).done(function(data){
+       //          console.log(data);
+       //          // taskval=JSON.stringify(data);
+       //          taskval=data;
+       //        }
+       //
+       //      ).fail(function(){
+       //        alert('fail');
+       //      });
+       // }
+       // function drawTables(mytable, data){
+       //   //alert(mytable);
+       //   // $('.insttable#'+mytable).fadeToggle(500);
+       //   $.each(data.instances, function(index,item){
+       //       console.log(item.InstanceId+''+item.State.Name+''+ item.Tags[0].Value);
+       //       $('#'+mytable).append('<tr><td>'+item.InstanceId+'</td><td>'+item.Tags[0].Value+'</td><td>'+item.State.Name+'</td></tr>');
+       //      }
+       //   );
+       //   // $('#'+mytable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
+       //   $('#'+mytable).fadeToggle(500);
+       //   // $('#'+myTable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
+       // }
+       // jqfn = loadmyurl;
+       // drawfn = drawTables;
+      // })
 
       // $(function {
       //
       // });
 
-      function instanceloading(e) {
+      function instanceloading() {
         // alert("Page is loaded");
         //alert(e.target.id);
         {% if task_id %}
         var taskUrl = "{% url 'task' task_id=task_id %}";
         // jquery.load(taskUrl);
-        jqfn(taskUrl);
+        // jqfn(taskUrl);
         // alert(JSON.stringify(taskStatus));
 
+        instops.getInstance(taskUrl,'table-aws');
         // instops.getInstance('{{task_id}}');
-        var timer = setInterval(function() {
-          count++;
-          if (taskval === null ) {
-            alert('nul');
-          } else {
-            // alert(taskval.task_status);
-            if(taskval.task_status === 'SUCCESS') {
-              // alert(taskval.results);
-              drawfn('table-'+e.target.id, taskval.results)
-              clearInterval(timer);
-            }
-          }
-          // alert(count);
-          if(count===3) {
-            clearInterval(timer);
-          }
-        },500);
+        // var timer = setInterval(function() {
+        //   count++;
+        //   if (taskval === null ) {
+        //     alert('nul');
+        //   } else {
+        //     // alert(taskval.task_status);
+        //     if(taskval.task_status === 'SUCCESS') {
+        //       // alert(taskval.results);
+        //       drawfn('table-'+e.target.id, taskval.results)
+        //       clearInterval(timer);
+        //     }
+        //   }
+        //   // alert(count);
+        //   if(count===3) {
+        //     clearInterval(timer);
+        //   }
+        // },500);
         {% endif %}
+      }
+      function toggleme(e){
+            instops.mytoggle('table-'+e.target.id);
       }
     </script>
   </body>

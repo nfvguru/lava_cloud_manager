@@ -49,3 +49,4 @@ python manage.py collectstatic
  Follow:- https://stackabuse.com/asynchronous-tasks-in-django-with-redis-and-celery
  Change in running celery command:-
  celery  -A lcloudm  worker --loglevel=info
+     backgourd RESTAPI is at waitress-serve --port=9000 lcm_backend.app:app
