@@ -21,18 +21,13 @@ def index(request):
 
 def approot(request):
     context={}
-    inst_types = InstanceType.objects
-    # task = adding_task.delay(9,4)
-    task = get_instance_details.delay('1')
-    context['taskid_' + 'aws'] = task.id
-    task = get_instance_details.delay('2')
-    context['taskid_' + 'gcp'] = task.id
-    task = get_instance_details.delay('3')
-    context['taskid_' + 'azure'] = task.id
-    # context['task_status'] = task.status
-    # if task.status == 'SUCCESS':
-    #     context['task_results'] = task.get()
-    context['instances'] = inst_types
+    my_inst_details=[]
+    inst_types = InstanceType.objects.all()
+    for inst in inst_types:
+        task = get_instance_details.delay(inst.type)
+        update_val = {'inst': inst, 'taskid': task.id}
+        my_inst_details.append(update_val)
+    context['instances'] = my_inst_details
     return render(request, 'instances/approot.html', context)
 
 def listinst(request, inst_id):

@@ -7,10 +7,15 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/approot.css' %}">
     <!-- <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script> -->
-    <script
+    <!-- <script
   src="https://code.jquery.com/jquery-1.12.4.js"
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script> -->
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous">
+  </script>
     <script src="{% static 'js/instops.js' %}"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script> -->
@@ -18,8 +23,8 @@
 
     <title> LAVA CLOUD MANAGER</title>
   </head>
-  <body onload="instanceloading()">
-  <!-- <body> -->
+  <!-- <body onload="instanceloading()"> -->
+  <body>
     <div class="mycanvas">
     <header class="header">
       <div class="logo-box">
@@ -42,10 +47,10 @@
      <main>
     <!-- Main content -->
     <div class="instlogo-box">
-    {% for inst in  instances.all %}
+    {% for item in  instances %}
       <br>
-      <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="toggleme(event)" class="instimg">
-        <table class="insttable" id="table-{{inst.type}}">
+      <img src="{{item.inst.logo.url}}" alt="" id="img-{{item.inst.type}}"  class="instimg">
+        <table class="insttable" id="table-{{item.inst.type}}">
           <tr>
             <th>Instance ID</th>
             <th>Name</th>
@@ -53,6 +58,7 @@
           </tr>
           <br>
         </table>
+      <p visibility='hidden' id='{{item.inst.type}}' data-taskurl="{% url 'task' task_id=item.taskid %}" ></p>
     {% endfor %}
     </div>
     </main>
@@ -65,31 +71,5 @@
     <!-- Footer content -->
      </footer>
     </div>
-    <script>
-      instops = new InstOps();
-      function instanceloading() {
-        {% for inst in  instances.all %}
-            {% if inst.type == 'aws' %}
-                var taskUrl = "{% url 'task' task_id=taskid_aws %}";
-                instops.getInstance(taskUrl,'table-{{inst.type}}');
-            {% elif inst.type == 'gcp' %}
-                var taskUrl = "{% url 'task' task_id=taskid_gcp %}";
-            {% elif inst.type == 'azure' %}
-                var taskUrl = "{% url 'task' task_id=taskid_azure %}";
-            {% endif %}
-            // alert(taskUrl);
-            // instops.getInstance(taskUrl,'table-{{inst.type}}');
-            //alert(taskUrl);
-        {% endfor %}
-           // {% if inst.type == 'aws' %}
-           //    var taskUrl = "{% url 'task' task_id=taskid_aws %}";
-           //    instops.getInstance(taskUrl,'table-{{inst.type}}');
-           // // {% endif %}
-
-      }
-      function toggleme(e){
-        instops.mytoggle('table-'+e.target.id);
-      }
-    </script>
   </body>
 </html>
