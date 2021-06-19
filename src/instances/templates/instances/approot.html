@@ -43,39 +43,19 @@
     <!-- Main content -->
     <div class="instlogo-box">
     {% for inst in  instances.all %}
-    <!-- <a href="{% url 'listinst' inst.id %}">
-        {{inst.type}}    </a> -->
-
-        <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="toggleme(event)" class="instimg">
+      <br>
+      <img src="{{inst.logo.url}}" alt="" id="{{inst.type}}" onclick="toggleme(event)" class="instimg">
         <table class="insttable" id="table-{{inst.type}}">
           <tr>
             <th>Instance ID</th>
             <th>Name</th>
             <th>State</th>
           </tr>
-          <!-- {% if inst.type == 'aws' %}
-          <tr>
-          <td>11111111111</td>
-          <td>lava</td>
-          <td> running </td>
-          </tr>
-          <tr>
-          <td>11111111112</td>
-          <td>lava2</td>
-          <td> stopped </td>
-          </tr>
-          {% endif %} -->
+          <br>
         </table>
-        {% if inst.type == 'aws' %}
-        <p class="subtitle has-text-centered" id="progress-title"></p>
-        {% else %}
-        <p> </p>
-        {% endif %}
-        <br>
     {% endfor %}
     </div>
-    <!-- <p>{{ task_id }}<p>{{ task_status }}<p>{{ task_results }} -->
-     </main>
+    </main>
 
     <aside>
     <!-- Sidebar / Ads -->
@@ -87,77 +67,28 @@
     </div>
     <script>
       instops = new InstOps();
-      // var count = 0;
-      // jqfn = null;
-      // drawfn = null;
-      // taskval = null;
-      //
-      // $(function() {
-       // function loadmyurl(url){
-       //        /.. some operations ../
-       //        // alert("from jquery"+ url);
-       //        $.getJSON(url,{}).done(function(data){
-       //          console.log(data);
-       //          // taskval=JSON.stringify(data);
-       //          taskval=data;
-       //        }
-       //
-       //      ).fail(function(){
-       //        alert('fail');
-       //      });
-       // }
-       // function drawTables(mytable, data){
-       //   //alert(mytable);
-       //   // $('.insttable#'+mytable).fadeToggle(500);
-       //   $.each(data.instances, function(index,item){
-       //       console.log(item.InstanceId+''+item.State.Name+''+ item.Tags[0].Value);
-       //       $('#'+mytable).append('<tr><td>'+item.InstanceId+'</td><td>'+item.Tags[0].Value+'</td><td>'+item.State.Name+'</td></tr>');
-       //      }
-       //   );
-       //   // $('#'+mytable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
-       //   $('#'+mytable).fadeToggle(500);
-       //   // $('#'+myTable).append('<tr><td>my data</td><td>more data</td><td>more data</td></tr>');
-       // }
-       // jqfn = loadmyurl;
-       // drawfn = drawTables;
-      // })
-
-      // $(function {
-      //
-      // });
-
       function instanceloading() {
-        // alert("Page is loaded");
-        //alert(e.target.id);
-        {% if task_id %}
-        var taskUrl = "{% url 'task' task_id=task_id %}";
-        // jquery.load(taskUrl);
-        // jqfn(taskUrl);
-        // alert(JSON.stringify(taskStatus));
+        {% for inst in  instances.all %}
+            {% if inst.type == 'aws' %}
+                var taskUrl = "{% url 'task' task_id=taskid_aws %}";
+                instops.getInstance(taskUrl,'table-{{inst.type}}');
+            {% elif inst.type == 'gcp' %}
+                var taskUrl = "{% url 'task' task_id=taskid_gcp %}";
+            {% elif inst.type == 'azure' %}
+                var taskUrl = "{% url 'task' task_id=taskid_azure %}";
+            {% endif %}
+            // alert(taskUrl);
+            // instops.getInstance(taskUrl,'table-{{inst.type}}');
+            //alert(taskUrl);
+        {% endfor %}
+           // {% if inst.type == 'aws' %}
+           //    var taskUrl = "{% url 'task' task_id=taskid_aws %}";
+           //    instops.getInstance(taskUrl,'table-{{inst.type}}');
+           // // {% endif %}
 
-        instops.getInstance(taskUrl,'table-aws');
-        // instops.getInstance('{{task_id}}');
-        // var timer = setInterval(function() {
-        //   count++;
-        //   if (taskval === null ) {
-        //     alert('nul');
-        //   } else {
-        //     // alert(taskval.task_status);
-        //     if(taskval.task_status === 'SUCCESS') {
-        //       // alert(taskval.results);
-        //       drawfn('table-'+e.target.id, taskval.results)
-        //       clearInterval(timer);
-        //     }
-        //   }
-        //   // alert(count);
-        //   if(count===3) {
-        //     clearInterval(timer);
-        //   }
-        // },500);
-        {% endif %}
       }
       function toggleme(e){
-            instops.mytoggle('table-'+e.target.id);
+        instops.mytoggle('table-'+e.target.id);
       }
     </script>
   </body>

@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import InstanceType
 from .tasks import adding_task
-from .tasks import get_aws_instance_details
+from .tasks import get_instance_details
 
 
 def index(request):
@@ -23,11 +23,15 @@ def approot(request):
     context={}
     inst_types = InstanceType.objects
     # task = adding_task.delay(9,4)
-    task = get_aws_instance_details.delay()
-    context['task_id'] = task.id
-    context['task_status'] = task.status
-    if task.status == 'SUCCESS':
-        context['task_results'] = task.get()
+    task = get_instance_details.delay('1')
+    context['taskid_' + 'aws'] = task.id
+    task = get_instance_details.delay('2')
+    context['taskid_' + 'gcp'] = task.id
+    task = get_instance_details.delay('3')
+    context['taskid_' + 'azure'] = task.id
+    # context['task_status'] = task.status
+    # if task.status == 'SUCCESS':
+    #     context['task_results'] = task.get()
     context['instances'] = inst_types
     return render(request, 'instances/approot.html', context)
 
@@ -39,10 +43,9 @@ def listinst(request, inst_id):
 class TaskView(View):
     def get(self, request, task_id):
         task = current_app.AsyncResult(task_id)
-        response_data = {'task_status': task.status, 'task_id': task.id}
-
+        # response_data = {'task_status': task.status, 'task_id': task.id}
+        response_data = {'task_status': task.status}
         if task.status == 'SUCCESS':
             response_data['results'] = task.get()
-            print (response_data['results'])
-
+            # print (response_data['results'])
         return JsonResponse(response_data)
